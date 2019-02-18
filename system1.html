@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>system1</title>
+<link href="jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
+<link href="jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
+<link href="jQueryAssets/jquery.ui.datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="jQueryAssets/jquery-1.11.1.min.js"></script>
+<script src="jQueryAssets/jquery.ui-1.10.4.datepicker.min.js"></script>
+<strong></strong>
+<style>
+* {
+	padding: 0;
+	margin: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #c0c0c0;
+}
+th, td {
+	border: 1px solid #d0d0d0;
+	color: #404060;
+	padding: 0.8rem;
+}
+th {
+	background-color: #09c;
+	font: bold 1.1rem "微软雅黑";
+	color: #fff;
+}
+td {
+	font: 1rem "微软雅黑";
+}
+tbody tr {
+	background-color: #f0f0f0;
+}
+tbody tr:hover {
+	cursor: pointer;
+	background-color: #fafafa;
+}
+</style>
+</head><body>
+<h3>系统1</h3>
+<p>选择日期:
+  <input type="text" id="Datepicker1">
+</p>
+<pre id="invalidate_text"><strong>无效</strong></pre>
+<p>&nbsp;</p>
+<table>
+  <thead>
+    <tr>
+      <th>标题</th>
+      <th>地址</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody id="J_TbData">
+  </tbody>
+</table>
+<script type="text/javascript">
+
+$(function() {
+	var fieldname="userid";
+    var reg = new RegExp("(^|&)"+ fieldname +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)$( "#invalidate_text" ).text(unescape(r[2]));
+	$( "#Datepicker1" ).datepicker({ onSelect: function(dateText, inst) {
+		$("#invalidate_text").hide();
+        var $trTemp = $("<tr>666</tr>");
+        $trTemp.appendTo("#J_TbData");
+		$trTemp.append("<td>1</td>");
+		$trTemp.append("<td>2</td>");
+		$trTemp.append("<td>3</td>");
+	 }}); 
+});
+</script>
+</body>
+</html>

@@ -10,41 +10,53 @@
         error: function(jqXHR, textStatus, errorThrown){  
             switch (jqXHR.status){  
                 case(500):  
-                    alert("服务器系统内部错误");  
+                    $("#result_message").text("服务器系统内部错误");  
                     break;  
                 case(401):  
-                    alert("未登录");  
+                    $("#result_message").text("未登录");  
                     break;  
                 case(403):  
-                    alert("无权限执行此操作");  
+                    $("#result_message").text("无权限执行此操作");  
                     break;  
                 case(408):  
-                    alert("请求超时");  
+                    $("#result_message").text("请求超时");  
                     break;  
                 default:  
-                    alert("未知错误");  
+                    $("#result_message").text("未知错误");  
             }  
         },   
         success: function(data){  
-            alert("操作成功");  
+            $("#result_message").text("操作成功");  
         }  
     });  
 });  
 $(document).ready(function(){
   $("#button1").click(function(){
+	  var userid=$("#userid").val();
+	  var userpassword=$("#userpassword").val()
+	  if(userid.length>0 && userpassword.length>0){
     $.post("http://47.106.36.181:8081/GDSERVICE/login.aspx",
     {
       UserCode:$("#userid").val(),
       Password:$("#userpassword").val()
     },
     function(data,status){
-
-      alert("数据：" + data.result.new_username + "\n状态：" + status);
+		
+		$("#result_message").text("数据：" + data.result.new_username + "\n状态：" + status);
+		if(data.result.new_username==null){
+			window.location.href='system1.html?userid=666';
+		}else{
+			window.location.href='editabletable.html?userid=666';
+		}
     });
+	  }else{
+		  		$("#result_message").text("请输入账号和密码");
+	  }
+	  
   });
 });
 </script>
-<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>login</title>
 <style type="text/css">
 * {
@@ -124,6 +136,14 @@ $(document).ready(function(){
 	margin-right: auto;
 	margin-left: auto;
 }
+#wrap .logGet .lgE {
+	width: 86%;
+	position: relative;
+	margin-right: auto;
+	margin-left: auto;
+	color: #FFFFFF;
+	font-size: 1.2rem;
+}
 #wrap .logGet .logC {
 	width: 40%;
 	margin-top: 0px;
@@ -137,8 +157,7 @@ $(document).ready(function(){
 	position: absolute;
 	top: 10%;
 	left: 35%;
-	bottom: 10%
-	transform: translate(-50%, -50%);  /* 使用css3的transform来实现 */
+ bottom: 10% transform: translate(-50%, -50%);  /* 使用css3的transform来实现 */
 	font-size: 1.4rem;
 	height: 10%;
 	width: 30%;
@@ -208,8 +227,11 @@ $(document).ready(function(){
       <input type="text" id="userid" placeholder="输入用户名" />
     </div>
     <div class="lgD">
-      <input type="password" id="userpassword" placeholder="输入用户密码" />
+      <p>
+        <input type="password" id="userpassword" placeholder="输入用户密码" />
+      </p>
     </div>
+    <p class="lgE" id="result_message">&nbsp;</p>
     <div class="logC"><a>
       <button id="button1">登 录</button>
       </a> </div>
